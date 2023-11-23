@@ -1,0 +1,49 @@
+#This code will create multiple instances of same ami for different users using list and for_each function.
+
+#main.tf
+#-------------------------------------------------------------
+
+resource "aws_instance" "aws_ec2"{
+        for_each = var.ec2.instances
+        ami = var.ec2.ami
+        instance_type = var.ec2.type
+        tags ={
+
+#in the set the name is key an ami is taken from variables.tf file
+
+        Name = each.key
+}
+        user_data = var.ec2.userdata
+        key_name = var.ec2.key
+
+#create the instances before destroying
+
+        lifecycle{
+        create_before_destroy = true
+}
+}
+
+#------------------------------------------------------------------------
+#variables.tf
+
+variable "ec2"{
+        type = object({
+                count = number
+                ami = string
+                key = string
+                type = string
+                instances = set(string)
+                userdata = string
+
+})
+
+default = {
+                count = 5
+                ami = "ami-0fc5d935ebf8bc3bc"
+                key = "Terraform"
+                type = "t2.micro"
+                instances = ["baba","kishan", "krish", "rahul"]
+                userdata = "./user_data.sh"
+                sensitive = true
+}
+}
