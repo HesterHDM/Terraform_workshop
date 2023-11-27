@@ -1,0 +1,11 @@
+	The name of instance is: test_ec2_instance
+	The number of instaces is: 4
+
+	#we can use it to launch aws instances
+
+resource "aws_instance" "aws"{
+       	ami= var.aws_ec2_object.ami
+       	instance_type= var.aws_ec2_object.instance_type
+       	region= var.aws_ec2_object.region
+       	count= var.aws_ec2_object.instances
+       	instance_name=var.aws_ec2_object.name

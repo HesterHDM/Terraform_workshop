@@ -1,0 +1,2 @@
+The name of instance is : test_ec2_instance
+The testing region is : us-east-1
